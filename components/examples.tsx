@@ -17,15 +17,11 @@ struct Process {
 };
 
 void fifo_scheduling(Process processes[], int n) {
-    // Ordena por tempo de chegada
     sort(processes, processes + n, 
-         [](Process a, Process b) {
-             return a.arrival_time < b.arrival_time;
-         });
+         [](Process a, Process b) { return a.arrival_time < b.arrival_time; });
     
     int current_time = 0;
     for(int i = 0; i < n; i++) {
-        // Executa processo na ordem FIFO
         current_time += processes[i].burst_time;
         printf("Processo %d executado\\n", processes[i].pid);
     }
@@ -40,8 +36,8 @@ void fifo_scheduling(Process processes[], int n) {
     def __init__(self, size):
         self.buffer = [None] * size
         self.size = size
-        self.head = 0  # Próximo a sair
-        self.tail = 0  # Próximo a entrar
+        self.head = 0
+        self.tail = 0
         self.count = 0
     
     def enqueue(self, data):
@@ -50,7 +46,7 @@ void fifo_scheduling(Process processes[], int n) {
             self.tail = (self.tail + 1) % self.size
             self.count += 1
             return True
-        return False  # Buffer cheio
+        return False
     
     def dequeue(self):
         if self.count > 0:
@@ -58,15 +54,14 @@ void fifo_scheduling(Process processes[], int n) {
             self.head = (self.head + 1) % self.size
             self.count -= 1
             return data
-        return None  # Buffer vazio`,
+        return None`,
       language: "python",
     },
     {
       icon: Network,
       title: "Fila de Rede",
       description: "Processamento de pacotes em ordem FIFO",
-      code: `// Fila de pacotes de rede
-typedef struct Packet {
+      code: `typedef struct Packet {
     int id;
     char data[1024];
     int priority;
@@ -91,14 +86,9 @@ void enqueue_packet(NetworkQueue* queue, Packet* packet) {
 
 Packet* dequeue_packet(NetworkQueue* queue) {
     if (queue->front == NULL) return NULL;
-    
     Packet* packet = queue->front;
     queue->front = queue->front->next;
-    
-    if (queue->front == NULL) {
-        queue->rear = NULL;
-    }
-    
+    if (queue->front == NULL) queue->rear = NULL;
     queue->size--;
     return packet;
 }`,
@@ -107,7 +97,7 @@ Packet* dequeue_packet(NetworkQueue* queue) {
   ]
 
   return (
-    <section className="py-20 px-6 bg-secondary/20">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-16 fade-in-up">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-balance">
@@ -122,13 +112,14 @@ Packet* dequeue_packet(NetworkQueue* queue) {
           {examples.map((example, index) => (
             <Card
               key={example.title}
-              className={`p-8 bg-card/50 backdrop-blur-sm border-primary/20 fade-in-up transition-transform duration-300 hover:scale-105 hover:shadow-lg`}
+              className="p-6 sm:p-8 bg-card/50 backdrop-blur-sm border-primary/20 fade-in-up transition-transform duration-300 hover:scale-105 hover:shadow-lg"
               style={{ animationDelay: `${index * 0.2}s` }}
             >
-              <div className="grid lg:grid-cols-2 gap-8 items-start">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
+                {/* Texto */}
                 <div>
                   <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4">
+                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
                       <example.icon className="h-6 w-6 text-primary" />
                     </div>
                     <div>
@@ -137,7 +128,7 @@ Packet* dequeue_packet(NetworkQueue* queue) {
                     </div>
                   </div>
 
-                  <div className="prose prose-invert max-w-none">
+                  <div className="prose prose-invert max-w-full">
                     <p className="text-foreground/80 leading-relaxed">
                       Este exemplo demonstra como o algoritmo FIFO é implementado em {example.title.toLowerCase()},
                       garantindo que os elementos sejam processados na ordem exata de chegada.
@@ -145,11 +136,12 @@ Packet* dequeue_packet(NetworkQueue* queue) {
                   </div>
                 </div>
 
-                <div className="relative">
+                {/* Código */}
+                <div className="relative overflow-x-auto">
                   <div className="absolute top-4 right-4 text-xs text-muted-foreground uppercase tracking-wide">
                     {example.language}
                   </div>
-                  <pre className="bg-background/50 p-6 rounded-lg overflow-x-auto text-sm border border-border">
+                  <pre className="bg-background/50 p-4 sm:p-6 rounded-lg overflow-x-auto text-sm border border-border">
                     <code className="text-foreground font-mono">{example.code}</code>
                   </pre>
                 </div>
